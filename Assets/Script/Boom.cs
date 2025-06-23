@@ -24,7 +24,6 @@ public class Boom : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // 이후 인식 방법 변경
         if (collision.GetComponent<Enemy>() != null)
         {
             Explode();

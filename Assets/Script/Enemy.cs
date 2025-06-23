@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         // 죽었을 때 처리 (이펙트, 점수, 등)
+        ScoreManager.Instance.AddScore(10);
         Destroy(gameObject);
     }
 
@@ -32,5 +34,17 @@ public class Enemy : MonoBehaviour
     {
         //적이 가는 방향
         transform.Translate(Vector3.right * -moveSpeed * Time.deltaTime);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Wall"))
+        {
+            // 벽에 닿았을 경우 점수 증가 없이 적 제거
+            Debug.Log("적을 막지 못 함");
+            Destroy(gameObject);
+        }
+        else
+            Debug.Log("체력 감소");
     }
 }
