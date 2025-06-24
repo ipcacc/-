@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour
 {
-    public float moveSpeed = 1f; //적 움직임의 속도
+    public float moveSpeed = 1f;
     public float maxHealth = 100f;
     private float currentHealth;
 
@@ -26,7 +26,9 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         // 죽었을 때 처리 (이펙트, 점수, 등)
-        ScoreManager.Instance.AddScore(10);
+        ScoreManager.AddScore(10000); // 점수 추가
+        Debug.Log("점수 증가");
+        MoneyManager.AddMoney(500); // 돈 추가
         Destroy(gameObject);
     }
 
@@ -40,7 +42,6 @@ public class Enemy : MonoBehaviour
     {
         if (collision.CompareTag("Wall"))
         {
-            // 벽에 닿았을 경우 점수 증가 없이 적 제거
             Debug.Log("적을 막지 못 함");
             Destroy(gameObject);
         }

@@ -8,20 +8,6 @@ public class Player : MonoBehaviour
 {
 
     float score;
-    public GameObject projectilePrefab;
-    public float fireRate = 0.5f; // 초당 발사 횟수
-    private float timer = 0f;
-
-    private void Awake()
-    {
-        score = 5000f;
-    }
-
-    private void Updata()
-    {
-        score -= Time.deltaTime;
-    }
-
     public float moveSpeed = 5f;
     private Rigidbody2D rb;
     private Vector2 movement;
@@ -29,6 +15,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        int startingMoney = InitialMoneyManager.LoadInitialMoney();
+        MoneyManager.SaveMoney(startingMoney); // 실제 돈 세팅
     }
 
     void Update()
@@ -36,25 +24,12 @@ public class Player : MonoBehaviour
         // 입력 받기 (WASD)
         movement.x = Input.GetAxisRaw("Horizontal"); // A, D 또는 ← →
         movement.y = Input.GetAxisRaw("Vertical");   // W, S 또는 ↑ ↓
-        
-        timer += Time.deltaTime;
-
-        if (timer >= fireRate)
-        {
-            Fire();
-            timer = 0f;
-        }
     }
 
     void FixedUpdate()
     {
         // 실제 움직임 적용
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
-    }
-
-    void Fire()
-    {
-        Instantiate(projectilePrefab, transform.position, Quaternion.identity);
     }
 }
     
